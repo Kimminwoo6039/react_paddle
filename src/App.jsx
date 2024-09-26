@@ -48,11 +48,11 @@ const App = () => {
   };
 
   return (
-      <div style={{ padding: '20px' }}>
+      <div style={{ padding: '20px' , justifyContent:"center"  }}>
         {isLoadingModel && (
             <div style={{ marginBottom: '20px' }}>
-              <h2>2</h2>
-              <p>正在加载模型，请稍等。</p>
+              <h2>테스트</h2>
+              <p>이미지 OCR 테스트</p>
             </div>
         )}
         <div style={{ display: 'flex', gap: '20px' }}>
@@ -66,7 +66,7 @@ const App = () => {
           </div>
           <div style={{ flex: '1' }}>
             <h2>이미지 박스</h2>
-            <button onClick={predict}>开始识别</button>
+            <button onClick={predict}>결과 조회</button>
             <canvas id="canvas" style={{ width: '100%', marginTop: '100px' }}></canvas>
           </div>
           <div style={{ flex: '1' }}>
