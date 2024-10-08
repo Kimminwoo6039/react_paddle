@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import * as ocr from '@paddle-js-models/ocr';
+ import * as ocr from "../src/index.ts";
+ //  import * as ocr from "@paddlejs-models/ocr";
+
 
 const App = () => {
   const [result, setResult] = useState('');
@@ -7,11 +9,20 @@ const App = () => {
   const canvasRef = useRef(null);
   const showImgRef = useRef(null);
   const rawImgRef = useRef(null);
+
+
+
   useEffect(() => {
+
     const initModel = async () => {
       try {
         canvasRef.current = document.getElementById('canvas');
-        await ocr.init(); // 사용자 정의 모델 초기화
+        // await ocr.init({
+        //   // detCustomModel: 'https://paddlejs.bj.bcebos.com/models/fuse/ocr/ch_PP-OCRv3_det_fuse_activation/model.json',  // 검출 모델 사용자 정의 경로
+        //   // recCustomModel: 'https://paddlejs.bj.bcebos.com/models/fuse/ocr/ch_PP-OCRv3_det_fuse_activation/model.json'   // 인식 모델 사용자 정의 경로
+        // });
+      await ocr.init()
+
         setIsLoadingModel(false);
       } catch (error) {
         console.error("Error initializing OCR model:", error);
@@ -38,10 +49,16 @@ const App = () => {
     }
   };
 
+
   const predict = async () => {
     const img = rawImgRef.current;
-    const res = await ocr.recognize(img, { canvas: canvasRef.current });
-    console.log(res);
+    console.log("이미지" , img)
+    const res = await ocr.recognize(img, { canvas: canvasRef.current  });
+    console.log("res =" , res)
+
+    //const recResult = new recPostprocess(canvasRef);
+    console.log("음")
+    console.log(res)
     if (res.text?.length) {
       setResult(res.text.reduce((total, cur) => total + `<p>${cur}</p>`));
     }
@@ -67,7 +84,7 @@ const App = () => {
           <div style={{ flex: '1' }}>
             <h2>이미지 박스</h2>
             <button onClick={predict}>결과 조회</button>
-            <canvas id="canvas" style={{ width: '100%', marginTop: '100px' }}></canvas>
+            <canvas id="canvas"></canvas>
           </div>
           <div style={{ flex: '1' }}>
             <h2>이미지 결과</h2>
